@@ -1,1413 +1,1544 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  >
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, viewport-fit=cover"
+>
 
-  <meta name="theme-color" content="#fff7f2">
+<meta name="theme-color" content="#fff7f2">
 
-  <meta
-    name="description"
-    content="Персональный помощник по выбору идеи подарка"
-  >
+<title>Идея подарка именно про человека</title>
 
-  <title>Идея подарка именно про человека</title>
+<style>
 
-  <style>
+:root {
+  --vh: 1vh;
 
-    :root {
-      --text: #24212b;
-      --muted: #6f6878;
+  --text: #24212b;
+  --muted: #706a78;
 
-      --accent1: #f65178;
-      --accent2: #7b4df6;
+  --accent1: #f65079;
+  --accent2: #7b4df6;
 
-      --card: rgba(255,255,255,.96);
+  --card: #ffffff;
 
-      --shadow:
-        0 18px 45px rgba(67, 43, 82, .13);
+  --radius: 28px;
 
-      --radius: 28px;
-    }
+  --shadow:
+    0 18px 45px rgba(70,45,86,.13);
+}
 
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+}
 
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 
-      width: 100%;
-      height: 100%;
+  width: 100%;
 
-      overflow: hidden;
+  overflow: hidden;
 
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
 
-      color: var(--text);
+  color: var(--text);
 
-      background:
-        radial-gradient(
-          circle at 10% 8%,
-          rgba(255,211,94,.27),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 90% 12%,
-          rgba(126,79,246,.12),
-          transparent 32%
-        ),
-        linear-gradient(
-          145deg,
-          #fff8f3,
-          #f7f3ff
-        );
-    }
+  background:
+    radial-gradient(
+      circle at 10% 8%,
+      rgba(255,211,94,.28),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 12%,
+      rgba(126,79,246,.12),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      #fff8f3,
+      #f7f3ff
+    );
+}
 
 
-    body {
-      min-height: 100svh;
-      height: 100dvh;
+body {
+  height: calc(var(--vh) * 100);
+}
 
-      -webkit-font-smoothing: antialiased;
-    }
 
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
 
-    button,
-    a {
-      -webkit-tap-highlight-color: transparent;
-    }
 
 
-    /* ===== ОБЩИЙ КОНТЕЙНЕР ===== */
+/* =========================
+   ОБЩИЙ КОНТЕЙНЕР
+   ========================= */
 
-    .app {
-      width: 100%;
+.app {
 
-      height: 100dvh;
-      min-height: 100svh;
+  width: 100%;
 
-      display: flex;
-      justify-content: center;
+  height: calc(var(--vh) * 100);
 
-      padding:
+  display: flex;
 
-        max(
-          8px,
-          env(safe-area-inset-top)
-        )
+  justify-content: center;
 
-        12px
+  padding:
+    8px
+    12px
+    10px;
+}
 
-        max(
-          10px,
-          env(safe-area-inset-bottom)
-        );
-    }
 
+.phone {
 
-    .phone {
-      width: min(100%, 460px);
-      height: 100%;
+  width: min(100%, 460px);
 
-      display: flex;
-      flex-direction: column;
+  height: 100%;
 
-      min-height: 0;
-    }
+  display: flex;
 
+  flex-direction: column;
 
-    /* ===== ПРОГРЕСС ===== */
+  min-height: 0;
+}
 
-    .progress {
-      height: 27px;
 
-      display: flex;
-      align-items: center;
 
-      gap: 9px;
+/* =========================
+   ПРОГРЕСС
+   ========================= */
 
-      padding: 0 4px 7px;
-    }
+.progress {
 
+  flex: 0 0 25px;
 
-    .progress-bars {
-      display: flex;
-      gap: 7px;
+  display: flex;
 
-      flex: 1;
-    }
+  align-items: center;
 
+  gap: 9px;
 
-    .bar {
-      height: 4px;
+  padding:
+    0
+    4px
+    6px;
+}
 
-      flex: 1;
 
-      border-radius: 20px;
+.progress-bars {
 
-      background:
-        rgba(38,33,46,.11);
-    }
+  flex: 1;
 
+  display: flex;
 
-    .bar.active,
-    .bar.done {
-      background:
-        linear-gradient(
-          90deg,
-          var(--accent1),
-          var(--accent2)
-        );
-    }
+  gap: 7px;
+}
 
 
-    .step-counter {
-      min-width: 25px;
+.bar {
 
-      font-size: 12px;
-      font-weight: 800;
+  flex: 1;
 
-      color: #665e72;
-    }
+  height: 4px;
 
+  border-radius: 20px;
 
-    /* ===== ЭКРАН ===== */
+  background:
+    rgba(38,33,46,.11);
+}
 
-    .stage {
-      position: relative;
 
-      flex: 1;
+.bar.active,
+.bar.done {
 
-      min-height: 0;
-    }
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent1),
+      var(--accent2)
+    );
+}
 
 
-    .screen {
-      position: absolute;
+.step-counter {
 
-      inset: 0;
+  width: 28px;
 
-      display: flex;
-      flex-direction: column;
+  font-size: 12px;
 
-      background: var(--card);
+  font-weight: 800;
 
-      border-radius: var(--radius);
+  color: #675f73;
+}
 
-      box-shadow: var(--shadow);
 
-      border:
-        1px solid
-        rgba(49,36,58,.05);
 
-      overflow: hidden;
+/* =========================
+   СЦЕНА
+   ========================= */
 
-      opacity: 0;
+.stage {
 
-      transform:
-        translateX(24px)
-        scale(.988);
+  position: relative;
 
-      pointer-events: none;
+  flex: 1;
 
-      transition:
-        opacity .28s ease,
-        transform .28s ease;
-    }
+  min-height: 0;
+}
 
 
-    .screen.active {
-      opacity: 1;
 
-      transform:
-        translateX(0)
-        scale(1);
+/* =========================
+   ЭКРАН
+   ========================= */
 
-      pointer-events: auto;
-    }
+.screen {
 
+  position: absolute;
 
-    .screen.leaving {
-      opacity: 0;
+  inset: 0;
 
-      transform:
-        translateX(-22px)
-        scale(.988);
-    }
+  display: flex;
 
+  flex-direction: column;
 
-    /* ===== КАРТИНКА ===== */
+  background: var(--card);
 
-    .visual {
-      flex: 0 0 auto;
+  border-radius: var(--radius);
 
-      height: clamp(
-        130px,
-        24dvh,
-        205px
-      );
+  box-shadow: var(--shadow);
 
-      margin:
-        12px
-        12px
-        0;
+  overflow: hidden;
 
-      border-radius: 22px;
+  opacity: 0;
 
-      overflow: hidden;
+  transform:
+    translateX(22px)
+    scale(.99);
 
-      background:
-        linear-gradient(
-          135deg,
-          #fff6f1,
-          #f7eeff
-        );
+  pointer-events: none;
 
-      border:
-        1px dashed
-        rgba(125,78,246,.20);
-    }
+  transition:
+    opacity .28s ease,
+    transform .28s ease;
+}
 
 
-    .visual img {
-      width: 100%;
-      height: 100%;
+.screen.active {
 
-      display: block;
+  opacity: 1;
 
-      object-fit: contain;
-    }
+  transform:
+    translateX(0)
+    scale(1);
 
+  pointer-events: auto;
+}
 
-    /* ===== ТЕКСТ ===== */
 
-    .content {
-      flex: 1;
+.screen.leaving {
 
-      min-height: 0;
+  opacity: 0;
 
-      padding:
-        clamp(14px, 2.1dvh, 20px)
-        20px
-        6px;
+  transform:
+    translateX(-22px)
+    scale(.99);
+}
 
-      display: flex;
-      flex-direction: column;
 
-      justify-content: flex-start;
-    }
 
+/* =========================
+   КАРТИНКА
+   ========================= */
 
-    h1,
-    h2 {
-      margin:
-        0
-        0
-        clamp(8px, 1.4dvh, 13px);
+.visual {
 
-      font-size:
-        clamp(
-          23px,
-          3.8dvh,
-          30px
-        );
+  flex:
+    0
+    0
+    clamp(
+      120px,
+      23%,
+      190px
+    );
 
-      line-height: 1.08;
+  min-height: 0;
 
-      letter-spacing: -.035em;
-    }
+  margin:
+    10px
+    10px
+    0;
 
+  border-radius: 21px;
 
-    p {
-      margin:
-        0
-        0
-        clamp(6px, 1.05dvh, 10px);
+  overflow: hidden;
 
-      font-size:
-        clamp(
-          15px,
-          2.25dvh,
-          18px
-        );
+  display: flex;
 
-      line-height: 1.38;
-    }
+  align-items: center;
 
+  justify-content: center;
 
-    .emphasis {
-      font-weight: 800;
-    }
+  background:
+    linear-gradient(
+      135deg,
+      #fff6f1,
+      #f7eeff
+    );
 
+  border:
+    1px dashed
+    rgba(125,78,246,.20);
+}
 
-    .question {
-      margin-top: 2px;
 
-      font-size:
-        clamp(
-          18px,
-          2.6dvh,
-          21px
-        );
+.visual img {
 
-      font-weight: 850;
-    }
+  width: 100%;
 
+  height: 100%;
 
-    .small {
-      color: var(--muted);
+  display: block;
 
-      font-size:
-        clamp(
-          14px,
-          2dvh,
-          16px
-        );
-    }
+  object-fit: contain;
 
+  object-position: center center;
+}
 
-    /* ===== ПОИСКОВЫЕ ПРИМЕРЫ ===== */
 
-    .search-boxes {
-      display: grid;
 
-      gap: 6px;
+/* =========================
+   ТЕКСТ
+   ========================= */
 
-      margin:
-        1px
-        0
-        9px;
-    }
+.content {
 
+  flex: 1;
 
-    .search-box {
-      padding:
-        8px
-        10px;
+  min-height: 0;
 
-      border-radius: 12px;
+  padding:
+    14px
+    20px
+    4px;
 
-      background: #f7f5fa;
+  overflow: hidden;
+}
 
-      border:
-        1px solid
-        rgba(40,33,50,.06);
 
-      font-size:
-        clamp(
-          13px,
-          1.9dvh,
-          15px
-        );
+h1,
+h2 {
 
-      line-height: 1.25;
+  margin:
+    0
+    0
+    9px;
 
-      font-weight: 700;
-    }
+  font-size:
+    clamp(
+      21px,
+      3.25vh,
+      27px
+    );
 
+  line-height: 1.08;
 
-    /* ===== ТЕГИ ===== */
+  letter-spacing: -.035em;
+}
 
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
 
-      gap: 5px;
+p {
 
-      margin:
-        2px
-        0
-        9px;
-    }
+  margin:
+    0
+    0
+    7px;
 
+  font-size:
+    clamp(
+      14px,
+      2.15vh,
+      17px
+    );
 
-    .chip {
-      padding:
-        5px
-        8px;
+  line-height: 1.36;
+}
 
-      border-radius: 999px;
 
-      background:
-        rgba(123,77,246,.09);
+.emphasis {
 
-      color: #5e43b9;
+  font-weight: 800;
+}
 
-      font-size:
-        clamp(
-          11px,
-          1.7dvh,
-          13px
-        );
 
-      font-weight: 750;
-    }
+.question {
 
+  margin-top: 2px;
 
-    /* ===== НИЖНЯЯ КНОПКА ===== */
+  font-size:
+    clamp(
+      17px,
+      2.5vh,
+      20px
+    );
 
-    .footer {
-      flex: 0 0 auto;
+  font-weight: 850;
+}
 
-      padding:
-        7px
-        18px
-        max(
-          16px,
-          env(safe-area-inset-bottom)
-        );
-    }
 
+.small {
 
-    .btn {
-      width: 100%;
+  color: var(--muted);
 
-      min-height: 52px;
+  font-size:
+    clamp(
+      13px,
+      1.95vh,
+      15px
+    );
+}
 
-      border: none;
 
-      border-radius: 17px;
 
-      padding:
-        13px
-        15px;
+/* =========================
+   ПОИСК
+   ========================= */
 
-      display: flex;
+.search-boxes {
 
-      align-items: center;
-      justify-content: center;
+  display: grid;
 
-      text-decoration: none;
+  gap: 6px;
 
-      background:
-        linear-gradient(
-          135deg,
-          var(--accent1),
-          var(--accent2)
-        );
+  margin:
+    0
+    0
+    8px;
+}
 
-      color: white;
 
-      font-size:
-        clamp(
-          16px,
-          2.2dvh,
-          18px
-        );
+.search-box {
 
-      line-height: 1.15;
+  padding:
+    7px
+    10px;
 
-      font-weight: 850;
+  border-radius: 12px;
 
-      cursor: pointer;
+  background: #f7f5fa;
 
-      box-shadow:
-        0 10px 22px
-        rgba(112,70,226,.19);
+  border:
+    1px solid
+    rgba(40,33,50,.07);
 
-      transition:
-        transform .12s ease,
-        filter .12s ease;
-    }
+  font-size:
+    clamp(
+      12px,
+      1.9vh,
+      14px
+    );
 
+  line-height: 1.23;
 
-    .btn:active {
-      transform: scale(.985);
+  font-weight: 750;
+}
 
-      filter: brightness(.98);
-    }
 
 
-    .fallback {
-      display: block;
+/* =========================
+   ТЕГИ
+   ========================= */
 
-      margin-top: 8px;
+.chips {
 
-      text-align: center;
+  display: flex;
 
-      color: var(--muted);
+  flex-wrap: wrap;
 
-      font-size:
-        clamp(
-          11px,
-          1.65dvh,
-          13px
-        );
+  gap: 5px;
 
-      line-height: 1.2;
+  margin:
+    2px
+    0
+    7px;
+}
 
-      text-decoration: underline;
 
-      text-underline-offset: 3px;
-    }
+.chip {
 
+  padding:
+    4px
+    8px;
 
-    .micro {
-      margin-top: 5px;
+  border-radius: 999px;
 
-      text-align: center;
+  background:
+    rgba(123,77,246,.09);
 
-      color: #8b8493;
+  color: #5e43b9;
 
-      font-size:
-        clamp(
-          9px,
-          1.4dvh,
-          11px
-        );
+  font-size:
+    clamp(
+      10px,
+      1.65vh,
+      12px
+    );
 
-      line-height: 1.25;
-    }
+  font-weight: 750;
+}
 
 
-    /* ===== ОЧЕНЬ НЕВЫСОКИЕ ЭКРАНЫ ===== */
 
-    @media (max-height: 680px) {
+/* =========================
+   НИЖНЯЯ ЧАСТЬ
+   ========================= */
 
-      .progress {
-        height: 23px;
-      }
+.footer {
 
+  flex: 0 0 auto;
 
-      .visual {
-        height:
-          clamp(
-            110px,
-            20dvh,
-            145px
-          );
+  padding:
+    7px
+    18px
+    15px;
+}
 
-        margin:
-          8px
-          9px
-          0;
-      }
 
+.btn {
 
-      .content {
-        padding:
-          10px
-          17px
-          3px;
-      }
+  width: 100%;
 
+  min-height: 50px;
 
-      h1,
-      h2 {
-        font-size: 21px;
+  border: 0;
 
-        margin-bottom: 7px;
-      }
+  border-radius: 17px;
 
+  padding:
+    12px
+    14px;
 
-      p {
-        font-size: 14px;
+  display: flex;
 
-        line-height: 1.32;
+  align-items: center;
 
-        margin-bottom: 6px;
-      }
+  justify-content: center;
 
+  text-decoration: none;
 
-      .question {
-        font-size: 17px;
-      }
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent1),
+      var(--accent2)
+    );
 
+  color: #fff;
 
-      .footer {
-        padding:
-          5px
-          15px
-          max(
-            11px,
-            env(safe-area-inset-bottom)
-          );
-      }
+  font-size:
+    clamp(
+      15px,
+      2.1vh,
+      18px
+    );
 
+  font-weight: 850;
 
-      .btn {
-        min-height: 46px;
+  cursor: pointer;
 
-        padding: 10px;
+  box-shadow:
+    0 10px 22px
+    rgba(112,70,226,.19);
+}
 
-        font-size: 16px;
-      }
 
+.btn:active {
 
-      .search-box {
-        padding: 6px 8px;
+  transform: scale(.985);
+}
 
-        font-size: 12px;
-      }
 
+.fallback {
 
-      .chips {
-        margin-bottom: 5px;
-      }
+  display: block;
 
+  margin-top: 7px;
 
-      .chip {
-        padding: 4px 7px;
+  text-align: center;
 
-        font-size: 11px;
-      }
+  color: var(--muted);
 
-    }
+  font-size: 12px;
 
+  line-height: 1.2;
 
-    /* ===== ПК ===== */
+  text-decoration: underline;
 
-    @media (min-width: 700px) {
+  text-underline-offset: 3px;
+}
 
-      .app {
-        padding:
-          14px
-          20px;
-      }
 
+.micro {
 
-      .phone {
-        height:
-          min(
-            900px,
-            calc(100dvh - 28px)
-          );
-      }
+  margin-top: 4px;
 
-    }
+  text-align: center;
 
+  color: #938c9a;
 
-    @media
-    (prefers-reduced-motion: reduce) {
+  font-size: 10px;
 
-      * {
-        transition: none !important;
-      }
+  line-height: 1.2;
+}
 
-    }
 
-  </style>
 
+/* =========================
+   МАЛЕНЬКИЕ ТЕЛЕФОНЫ
+   ========================= */
 
+@media (max-height: 690px) {
 
-  <!-- ==============================================
-       ЯНДЕКС МЕТРИКА
+  .progress {
 
-       После создания счётчика замените 0
-       на номер своего счётчика.
+    flex-basis: 21px;
+  }
 
-       Например:
-       const METRIKA_ID = 123456789;
-       ============================================== -->
 
-  <script>
+  .visual {
 
-    const METRIKA_ID = 0;
+    flex-basis: 112px;
 
-    if (METRIKA_ID) {
+    margin:
+      7px
+      8px
+      0;
+  }
 
-      (function(m,e,t,r,i,k,a){
 
-        m[i] = m[i] || function(){
+  .content {
 
-          (m[i].a = m[i].a || [])
-            .push(arguments);
+    padding:
+      9px
+      16px
+      2px;
+  }
 
-        };
 
-        m[i].l = 1 * new Date();
+  h1,
+  h2 {
 
-        k = e.createElement(t);
+    font-size: 20px;
 
-        a = e.getElementsByTagName(t)[0];
+    margin-bottom: 6px;
+  }
 
-        k.async = 1;
 
-        k.src = r;
+  p {
 
-        a.parentNode.insertBefore(k,a);
+    font-size: 13px;
 
-      })(
-        window,
-        document,
-        "script",
-        "https://mc.yandex.ru/metrika/tag.js",
-        "ym"
-      );
+    line-height: 1.3;
 
+    margin-bottom: 5px;
+  }
 
-      ym(
-        METRIKA_ID,
-        "init",
-        {
-          clickmap: true,
-          trackLinks: true,
-          accurateTrackBounce: true
-        }
-      );
 
-    }
+  .question {
 
-  </script>
+    font-size: 16px;
+  }
 
-</head>
 
+  .search-box {
 
-<body>
+    padding:
+      5px
+      8px;
 
-<main class="app">
+    font-size: 11px;
+  }
 
-  <section class="phone">
 
+  .footer {
 
-    <!-- ПРОГРЕСС -->
+    padding:
+      4px
+      14px
+      10px;
+  }
 
-    <div class="progress">
 
-      <div class="progress-bars">
+  .btn {
 
-        <span class="bar active"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
+    min-height: 44px;
 
-      </div>
+    padding: 9px;
 
-      <div class="step-counter">
-        <span id="stepNumber">1</span>/4
-      </div>
+    font-size: 15px;
+  }
 
-    </div>
+}
 
 
 
-    <div class="stage">
+/* =========================
+   ПК
+   ========================= */
 
+@media (min-width: 700px) {
 
-      <!-- ===================================
-           ЭКРАН 1
-           =================================== -->
+  .app {
 
-      <article
-        class="screen active"
-        data-screen="1"
-      >
+    padding:
+      14px
+      20px;
+  }
 
-        <div class="visual">
 
-          <img
-            src="images/screen1.png"
-            alt="Выбор подарка близкому человеку"
-          >
+  .phone {
 
-        </div>
+    max-height: 880px;
+  }
 
+}
 
-        <div class="content">
-
-          <h1>
-            Когда хорошо знаешь человека —
-            выбрать подарок бывает ещё сложнее.
-          </h1>
-
-
-          <p>
-            Кажется, ты знаешь о нём почти всё.
-          </p>
-
-
-          <p>
-            А когда приходит время выбирать
-            подарок — идей нет.
-          </p>
-
-
-          <p class="question">
-            Знакомо?
-          </p>
-
-        </div>
-
-
-        <div class="footer">
-
-          <button
-            class="btn next"
-            type="button"
-          >
-            Знакомо →
-          </button>
-
-        </div>
-
-      </article>
-
-
-
-      <!-- ===================================
-           ЭКРАН 2
-           =================================== -->
-
-      <article
-        class="screen"
-        data-screen="2"
-      >
-
-        <div class="visual">
-
-          <img
-            src="images/screen2.png"
-            alt="Обычный поиск подарков"
-          >
-
-        </div>
-
-
-        <div class="content">
-
-          <h2>
-            И тогда начинается знакомый поиск.
-          </h2>
-
-
-          <div class="search-boxes">
-
-            <div class="search-box">
-              «Что подарить мужчине,
-              женщине или ребёнку?»
-            </div>
-
-
-            <div class="search-box">
-              «Что подарить человеку,
-              у которого всё есть?»
-            </div>
-
-          </div>
-
-
-          <p>
-            Десятки подборок.
-            Сотни товаров.
-          </p>
-
-
-          <p>
-            Они знают возраст,
-            пол и бюджет.
-          </p>
-
-
-          <p class="emphasis">
-            А самого человека — нет.
-          </p>
-
-        </div>
-
-
-        <div class="footer">
-
-          <button
-            class="btn next"
-            type="button"
-          >
-            А как искать? →
-          </button>
-
-        </div>
-
-      </article>
-
-
-
-      <!-- ===================================
-           ЭКРАН 3
-           =================================== -->
-
-      <article
-        class="screen"
-        data-screen="3"
-      >
-
-        <div class="visual">
-
-          <img
-            src="images/screen3.png"
-            alt="Персональная идея подарка"
-          >
-
-        </div>
-
-
-        <div class="content">
-
-          <h2>
-            Поэтому я сделал персонального
-            помощника по выбору подарка.
-          </h2>
-
-
-          <p>
-            Расскажите ему несколько обычных
-            деталей о человеке:
-          </p>
-
-
-          <div class="chips">
-
-            <span class="chip">
-              характер
-            </span>
-
-            <span class="chip">
-              привычки
-            </span>
-
-            <span class="chip">
-              увлечения
-            </span>
-
-            <span class="chip">
-              фразы
-            </span>
-
-            <span class="chip">
-              истории
-            </span>
-
-          </div>
-
-
-          <p>
-            Он задаст несколько коротких вопросов
-            и поможет найти идею, связанную
-            именно с этим человеком.
-          </p>
-
-
-          <p class="emphasis">
-            Без каталогов и случайных подборок.
-          </p>
-
-        </div>
-
-
-        <div class="footer">
-
-          <button
-            class="btn next"
-            type="button"
-          >
-            Хочу попробовать →
-          </button>
-
-        </div>
-
-      </article>
-
-
-
-      <!-- ===================================
-           ЭКРАН 4
-           =================================== -->
-
-      <article
-        class="screen"
-        data-screen="4"
-      >
-
-        <div class="visual">
-
-          <img
-            src="images/screen4.png"
-            alt="Переход к помощнику"
-          >
-
-        </div>
-
-
-        <div class="content">
-
-          <h2>
-            Готово.
-          </h2>
-
-
-          <p>
-            Вспомните человека,
-            для которого нужен подарок,
-            и расскажите о нём первое,
-            что приходит в голову.
-          </p>
-
-
-          <p class="small">
-            Характер, привычка, увлечение,
-            любимая фраза, смешная история
-            или ваше общее воспоминание.
-          </p>
-
-
-          <p class="emphasis">
-            Не ищите «правильные» ответы.
-          </p>
-
-
-          <p>
-            Иногда самая обычная деталь
-            и даёт самую интересную идею.
-          </p>
-
-        </div>
-
-
-        <div class="footer">
-
-          <a
-            class="btn"
-            id="telegramDirect"
-
-            href="tg://resolve?domain=GiftAboutYou_bot"
-          >
-            Открыть помощника в Telegram →
-          </a>
-
-
-          <a
-            class="fallback"
-            id="telegramFallback"
-
-            href="https://t.me/GiftAboutYou_bot"
-
-            target="_blank"
-            rel="noopener"
-          >
-            Не открылось?
-            Открыть другим способом
-          </a>
-
-
-          <div class="micro">
-            Откроется Telegram,
-            если приложение доступно
-            на устройстве.
-          </div>
-
-        </div>
-
-      </article>
-
-
-    </div>
-
-  </section>
-
-</main>
+</style>
 
 
 
 <script>
 
+/*
+====================================
+РЕАЛЬНАЯ ВЫСОТА ЭКРАНА СМАРТФОНА
+====================================
+*/
+
+function setViewportHeight() {
+
+  const vh =
+    window.innerHeight * 0.01;
+
+  document.documentElement.style.setProperty(
+    "--vh",
+    `${vh}px`
+  );
+
+}
+
+
+setViewportHeight();
+
+
+window.addEventListener(
+  "resize",
+  setViewportHeight
+);
+
+
+window.addEventListener(
+  "orientationchange",
+  () => {
+
+    setTimeout(
+      setViewportHeight,
+      150
+    );
+
+  }
+);
+
+</script>
+
+
+
+<!-- ==============================
+     ЯНДЕКС МЕТРИКА
+     пока выключена
+     ============================== -->
+
+<script>
+
+const METRIKA_ID = 0;
+
+
+if (METRIKA_ID) {
+
+  (function(m,e,t,r,i,k,a){
+
+    m[i] = m[i] || function(){
+
+      (m[i].a = m[i].a || [])
+        .push(arguments);
+
+    };
+
+    m[i].l = 1 * new Date();
+
+    k = e.createElement(t);
+
+    a = e.getElementsByTagName(t)[0];
+
+    k.async = 1;
+
+    k.src = r;
+
+    a.parentNode.insertBefore(k,a);
+
+  })(
+    window,
+    document,
+    "script",
+    "https://mc.yandex.ru/metrika/tag.js",
+    "ym"
+  );
+
+
+  ym(
+    METRIKA_ID,
+    "init",
+    {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true
+    }
+  );
+
+}
+
+</script>
+
+</head>
+
+
+
+<body>
+
+
+<main class="app">
+
+
+<section class="phone">
+
+
+
+<!-- ПРОГРЕСС -->
+
+<div class="progress">
+
+  <div class="progress-bars">
+
+    <span class="bar active"></span>
+
+    <span class="bar"></span>
+
+    <span class="bar"></span>
+
+    <span class="bar"></span>
+
+  </div>
+
+
+  <div class="step-counter">
+
+    <span id="stepNumber">
+      1
+    </span>/4
+
+  </div>
+
+</div>
+
+
+
+<div class="stage">
+
+
+
+<!-- ==================================
+     ЭКРАН 1
+     ================================== -->
+
+<article
+  class="screen active"
+  data-screen="1"
+>
+
+
+<div class="visual">
+
+  <img
+    src="images/screen1.png"
+    alt="Выбор подарка близкому человеку"
+  >
+
+</div>
+
+
+
+<div class="content">
+
+  <h1>
+    Когда хорошо знаешь человека —
+    выбрать подарок бывает ещё сложнее.
+  </h1>
+
+
+  <p>
+    Кажется, ты знаешь о нём почти всё.
+  </p>
+
+
+  <p>
+    А когда приходит время выбирать
+    подарок — идей нет.
+  </p>
+
+
+  <p class="question">
+    Знакомо?
+  </p>
+
+</div>
+
+
+
+<div class="footer">
+
+  <button
+    class="btn next"
+    type="button"
+  >
+    Знакомо →
+  </button>
+
+</div>
+
+
+</article>
+
+
+
+
+<!-- ==================================
+     ЭКРАН 2
+     ================================== -->
+
+<article
+  class="screen"
+  data-screen="2"
+>
+
+
+<div class="visual">
+
+  <img
+    src="images/screen2.png"
+    alt="Обычный поиск подарков"
+  >
+
+</div>
+
+
+
+<div class="content">
+
+  <h2>
+    И тогда начинается знакомый поиск.
+  </h2>
+
+
+  <div class="search-boxes">
+
+
+    <div class="search-box">
+
+      «Что подарить мужчине,
+      женщине или ребёнку?»
+
+    </div>
+
+
+    <div class="search-box">
+
+      «Что подарить человеку,
+      у которого всё есть?»
+
+    </div>
+
+
+  </div>
+
+
+  <p>
+    Десятки подборок.
+    Сотни товаров.
+  </p>
+
+
+  <p>
+    Они знают возраст,
+    пол и бюджет.
+  </p>
+
+
+  <p class="emphasis">
+    А самого человека — нет.
+  </p>
+
+</div>
+
+
+
+<div class="footer">
+
+  <button
+    class="btn next"
+    type="button"
+  >
+    А как искать? →
+  </button>
+
+</div>
+
+
+</article>
+
+
+
+
+<!-- ==================================
+     ЭКРАН 3
+     ================================== -->
+
+<article
+  class="screen"
+  data-screen="3"
+>
+
+
+<div class="visual">
+
+  <img
+    src="images/screen3.png"
+    alt="Персональная идея подарка"
+  >
+
+</div>
+
+
+
+<div class="content">
+
+  <h2>
+    Поэтому я сделал персонального
+    помощника по выбору подарка.
+  </h2>
+
+
+  <p>
+    Расскажите ему несколько обычных
+    деталей о человеке:
+  </p>
+
+
+  <div class="chips">
+
+    <span class="chip">
+      характер
+    </span>
+
+    <span class="chip">
+      привычки
+    </span>
+
+    <span class="chip">
+      увлечения
+    </span>
+
+    <span class="chip">
+      фразы
+    </span>
+
+    <span class="chip">
+      истории
+    </span>
+
+  </div>
+
+
+  <p>
+    Он задаст несколько коротких вопросов
+    и поможет найти идею, связанную
+    именно с этим человеком.
+  </p>
+
+
+  <p class="emphasis">
+    Без каталогов и случайных подборок.
+  </p>
+
+</div>
+
+
+
+<div class="footer">
+
+  <button
+    class="btn next"
+    type="button"
+  >
+    Хочу попробовать →
+  </button>
+
+</div>
+
+
+</article>
+
+
+
+
+<!-- ==================================
+     ЭКРАН 4
+     ================================== -->
+
+<article
+  class="screen"
+  data-screen="4"
+>
+
+
+<div class="visual">
+
+  <img
+    src="images/screen4.png"
+    alt="Переход к помощнику"
+  >
+
+</div>
+
+
+
+<div class="content">
+
+  <h2>
+    Готово.
+  </h2>
+
+
+  <p>
+    Вспомните человека,
+    для которого нужен подарок,
+    и расскажите о нём первое,
+    что приходит в голову.
+  </p>
+
+
+  <p class="small">
+    Характер, привычка, увлечение,
+    любимая фраза, смешная история
+    или ваше общее воспоминание.
+  </p>
+
+
+  <p class="emphasis">
+    Не ищите «правильные» ответы.
+  </p>
+
+
+  <p>
+    Иногда самая обычная деталь
+    и даёт самую интересную идею.
+  </p>
+
+</div>
+
+
+
+<div class="footer">
+
+
+  <a
+    class="btn"
+    id="telegramDirect"
+
+    href="tg://resolve?domain=GiftAboutYou_bot"
+  >
+
+    Открыть помощника в Telegram →
+
+  </a>
+
+
+  <a
+    class="fallback"
+    id="telegramFallback"
+
+    href="https://t.me/GiftAboutYou_bot"
+
+    target="_blank"
+    rel="noopener"
+  >
+
+    Не открылось?
+    Открыть другим способом
+
+  </a>
+
+
+  <div class="micro">
+
+    Откроется Telegram,
+    если приложение доступно
+    на устройстве.
+
+  </div>
+
+
+</div>
+
+
+</article>
+
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+
+
+<script>
+
+
 (() => {
 
 
-  const screens =
-    [...document.querySelectorAll(".screen")];
+const screens =
+  [...document.querySelectorAll(".screen")];
 
 
-  const bars =
-    [...document.querySelectorAll(".bar")];
+const bars =
+  [...document.querySelectorAll(".bar")];
 
 
-  const buttons =
-    [...document.querySelectorAll(".next")];
+const nextButtons =
+  [...document.querySelectorAll(".next")];
 
 
-  const stepNumber =
-    document.getElementById("stepNumber");
+const stepNumber =
+  document.getElementById(
+    "stepNumber"
+  );
 
 
-  let current = 0;
+let current = 0;
 
 
 
-  /* ================================
-     АНАЛИТИКА
-     ================================ */
+/* ===========================
+   МЕТРИКА
+   =========================== */
 
-  function goal(name) {
+function goal(name) {
 
-    if (
-      METRIKA_ID &&
-      typeof ym === "function"
-    ) {
+  if (
+    METRIKA_ID &&
+    typeof ym === "function"
+  ) {
 
-      ym(
-        METRIKA_ID,
-        "reachGoal",
-        name
-      );
-
-    }
+    ym(
+      METRIKA_ID,
+      "reachGoal",
+      name
+    );
 
   }
 
+}
 
 
-  /* ================================
-     ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
-     ================================ */
 
-  function showScreen(next) {
+/* ===========================
+   ПЕРЕКЛЮЧЕНИЕ
+   =========================== */
 
-    if (
-      next < 0 ||
-      next >= screens.length ||
-      next === current
-    ) {
-      return;
-    }
+function showScreen(next) {
 
 
-    const oldScreen =
-      screens[current];
+  if (
+    next < 0 ||
+    next >= screens.length ||
+    next === current
+  ) {
+    return;
+  }
 
 
-    const newScreen =
-      screens[next];
+  const oldScreen =
+    screens[current];
 
 
-    oldScreen.classList.add(
+  const newScreen =
+    screens[next];
+
+
+  oldScreen.classList.add(
+    "leaving"
+  );
+
+
+  setTimeout(() => {
+
+
+    oldScreen.classList.remove(
+      "active",
       "leaving"
     );
 
 
-    setTimeout(() => {
-
-      oldScreen.classList.remove(
-        "active",
-        "leaving"
-      );
+    newScreen.classList.add(
+      "active"
+    );
 
 
-      newScreen.classList.add(
-        "active"
-      );
+    current = next;
 
 
-      current = next;
+    stepNumber.textContent =
+      current + 1;
 
 
-      stepNumber.textContent =
-        current + 1;
+    bars.forEach(
+      (bar, index) => {
 
 
-      bars.forEach(
-        (bar, index) => {
-
-          bar.classList.toggle(
-            "active",
-            index === current
-          );
+        bar.classList.toggle(
+          "active",
+          index === current
+        );
 
 
-          bar.classList.toggle(
-            "done",
-            index < current
-          );
-
-        }
-      );
+        bar.classList.toggle(
+          "done",
+          index < current
+        );
 
 
-      /* фиксируем просмотр шага */
-
-      if (current === 1) {
-        goal("screen2");
       }
-
-
-      if (current === 2) {
-        goal("screen3");
-      }
-
-
-      if (current === 3) {
-        goal("screen4");
-      }
-
-
-    }, 200);
-
-  }
+    );
 
 
 
-  buttons.forEach(button => {
+    if (current === 1) {
+      goal("screen2");
+    }
+
+
+    if (current === 2) {
+      goal("screen3");
+    }
+
+
+    if (current === 3) {
+      goal("screen4");
+    }
+
+
+  }, 180);
+
+}
+
+
+
+nextButtons.forEach(
+  button => {
+
 
     button.addEventListener(
       "click",
       () => {
 
-        showScreen(
-          current + 1
-        );
-
-      }
-    );
-
-  });
-
-
-
-  /* ================================
-     КЛИК В TELEGRAM
-     ================================ */
-
-  document
-    .getElementById(
-      "telegramDirect"
-    )
-    .addEventListener(
-      "click",
-      () => {
-
-        goal(
-          "telegram_direct"
-        );
-
-      }
-    );
-
-
-
-  document
-    .getElementById(
-      "telegramFallback"
-    )
-    .addEventListener(
-      "click",
-      () => {
-
-        goal(
-          "telegram_fallback"
-        );
-
-      }
-    );
-
-
-
-  /* ================================
-     СВАЙП ВЛЕВО
-     ================================ */
-
-  let startX = null;
-  let startY = null;
-
-
-  document.addEventListener(
-
-    "touchstart",
-
-    event => {
-
-      const touch =
-        event.changedTouches[0];
-
-
-      startX =
-        touch.clientX;
-
-
-      startY =
-        touch.clientY;
-
-    },
-
-    {
-      passive: true
-    }
-
-  );
-
-
-
-  document.addEventListener(
-
-    "touchend",
-
-    event => {
-
-      if (
-        startX === null ||
-        startY === null
-      ) {
-        return;
-      }
-
-
-      const touch =
-        event.changedTouches[0];
-
-
-      const dx =
-        touch.clientX - startX;
-
-
-      const dy =
-        touch.clientY - startY;
-
-
-      if (
-
-        Math.abs(dx) > 65 &&
-
-        Math.abs(dx) >
-        Math.abs(dy) * 1.3 &&
-
-        dx < 0 &&
-
-        current <
-        screens.length - 1
-
-      ) {
 
         showScreen(
           current + 1
         );
 
+
       }
+    );
 
 
-      startX = null;
-      startY = null;
+  }
+);
 
-    },
 
-    {
-      passive: true
+
+/* ===========================
+   TELEGRAM
+   =========================== */
+
+document
+  .getElementById(
+    "telegramDirect"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      goal(
+        "telegram_direct"
+      );
+
+    }
+  );
+
+
+document
+  .getElementById(
+    "telegramFallback"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      goal(
+        "telegram_fallback"
+      );
+
+    }
+  );
+
+
+
+/* ===========================
+   СВАЙП
+   =========================== */
+
+let startX = null;
+
+let startY = null;
+
+
+document.addEventListener(
+
+  "touchstart",
+
+  event => {
+
+
+    const touch =
+      event.changedTouches[0];
+
+
+    startX =
+      touch.clientX;
+
+
+    startY =
+      touch.clientY;
+
+
+  },
+
+  {
+    passive: true
+  }
+
+);
+
+
+
+document.addEventListener(
+
+  "touchend",
+
+  event => {
+
+
+    if (
+      startX === null ||
+      startY === null
+    ) {
+      return;
     }
 
-  );
+
+    const touch =
+      event.changedTouches[0];
+
+
+    const dx =
+      touch.clientX - startX;
+
+
+    const dy =
+      touch.clientY - startY;
+
+
+    if (
+
+      Math.abs(dx) > 65 &&
+
+      Math.abs(dx) >
+      Math.abs(dy) * 1.3 &&
+
+      dx < 0 &&
+
+      current <
+      screens.length - 1
+
+    ) {
+
+      showScreen(
+        current + 1
+      );
+
+    }
+
+
+    startX = null;
+
+    startY = null;
+
+
+  },
+
+  {
+    passive: true
+  }
+
+);
 
 
 })();
+
 
 </script>
 
